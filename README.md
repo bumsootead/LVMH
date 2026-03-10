@@ -1,6 +1,4 @@
-@@ -1,1 +1,144 @@
--[EMPTY_FILE]
-\ No newline at end of file
+
 LVMH Stock Analysis
 
 A comprehensive stock analysis project for LVMH (Moët Hennessy Louis Vuitton) stock data, including volatility analysis, yearly growth calculations, and visualizations.
