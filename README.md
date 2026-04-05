@@ -1,16 +1,16 @@
-LVMH Stock Analysis
+__LVMH Stock Analysis__
 
 A comprehensive stock analysis project for LVMH (Moët Hennessy Louis Vuitton) stock data, including volatility analysis, yearly growth calculations, and visualizations.
 
-Overview
+__Overview__
 
-+-This project analyzes LVMH stock data from 2000 to 2026, providing insights into:
-+- Stock Volatility
-+- Yearly Stock Growth
-+- Trading Volume Trends
-+- Price Statistics
-+
- Repository Structure
+This project analyzes LVMH stock data from 2000 to 2026, providing insights into:
++ Stock Volatility
++ Yearly Stock Growth
++ Trading Volume Trends
++ Price Statistics
++ 
+ __Repository Structure__
 ```
 LVMH/
 ├── Data/
@@ -26,42 +26,42 @@ LVMH/
     ├── volatility_analysis.pkl    # Volatility data
     ├── growth_analysis.pkl        # Growth data
     └── summary_stats.pkl         # Summary statistics
-```
-Installation
+```x`
+__Installation__
 
 1. Clone this repository:
-+```bash
-+git clone https://github.com/YOUR_USERNAME/LVMH.git
-+cd LVMH
-+```
++ ```bash
++ git clone https://github.com/YOUR_USERNAME/LVMH.git
++ cd LVMH
++ ```
 2. Create a virtual environment (optional but recommended):
-+```bash
-+python -m venv venv
-+source venv/bin/activate  # On Windows: venv\Scripts\activate
++ ```bash
++ python -m venv venv
++ source venv/bin/activate  # On Windows: venv\Scripts\activate
 +```
 3. Install dependencies:
-+```bash
-+pip install -r requirements.txt
-+```
-4. 
-Dependencies
-pandas 
-numpy
-scikit-learn
-matplotlib
-joblib
-plotly
-seaborn
++ ```bash
++ pip install -r requirements.txt
++ ```
 
-Methodology
+__Dependencies__
++ - pandas 
++ - numpy
++ -scikit-learn
++ -matplotlib
++ -joblib
++ -plotly
++ -seaborn
+
+__Methodology__
 Volatility Calculation
-+- Daily returns: `Return = (Close - Open) / Open`
-+- Rolling 20-day standard deviation (annualized)
-+- Historical volatility using price range
++ - Daily returns: `Return = (Close - Open) / Open`
++ - Rolling 20-day standard deviation (annualized)
++ - Historical volatility using price range
 
 Growth Calculation
-+- Yearly return: `(Year-End Close - Year-Start Open) / Year-Start Open`
-+- Total return: `(Final Price - Initial Price) / Initial Price`
++ - Yearly return: `(Year-End Close - Year-Start Open) / Year-Start Open`
++ - Total return: `(Final Price - Initial Price) / Initial Price`
 
 Key Insights
 1. **Strong Long-term Growth**: LVMH has delivered over 880% total return since 2000
@@ -70,10 +70,11 @@ Key Insights
 4. **Recovery Pattern**: Strong rebounds after downturns (e.g., 2009 +68%)
 
 License
-+MIT License
++ MIT License
 
 Author
-+BumSoo Jeong - [GitHub Profile](https://github.com/bumsootead)
++ BumSoo Jeong - [GitHub Profile](https://github.com/bumsootead)
 
-+*Last Updated: 2026*
++ *Last Updated: 2026*
 ```
+
