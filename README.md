@@ -1,6 +1,3 @@
-@@ -1,1 +1,144 @@
--[EMPTY_FILE]
-\ No newline at end of file
 LVMH Stock Analysis
 
 A comprehensive stock analysis project for LVMH (Moët Hennessy Louis Vuitton) stock data, including volatility analysis, yearly growth calculations, and visualizations.
@@ -47,16 +44,16 @@ Installation
 +pip install -r requirements.txt
 +```
 4. 
-📦 Dependencies
-+- pandas
-+- numpy
-+- scikit-learn
-+- matplotlib
-+- joblib
-+- plotly
-+- seaborn
+Dependencies
+pandas 
+numpy
+scikit-learn
+matplotlib
+joblib
+plotly
+seaborn
 
-🔬 Methodology
+Methodology
 Volatility Calculation
 +- Daily returns: `Return = (Close - Open) / Open`
 +- Rolling 20-day standard deviation (annualized)
@@ -66,16 +63,16 @@ Growth Calculation
 +- Yearly return: `(Year-End Close - Year-Start Open) / Year-Start Open`
 +- Total return: `(Final Price - Initial Price) / Initial Price`
 
-📌 Key Insights
+Key Insights
 1. **Strong Long-term Growth**: LVMH has delivered over 880% total return since 2000
 2. **Moderate Volatility**: Average ~28% annual volatility (typical for luxury goods sector)
 3. **Crisis Years**: 2001, 2002, and 2008 showed highest volatility
 4. **Recovery Pattern**: Strong rebounds after downturns (e.g., 2009 +68%)
 
-📄 License
+License
 +MIT License
 
-👤 Author
+Author
 +BumSoo Jeong - [GitHub Profile](https://github.com/bumsootead)
 
 +*Last Updated: 2026*
