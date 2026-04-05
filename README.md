@@ -33,17 +33,17 @@ __Installation__
 + ```bash
   git clone https://github.com/YOUR_USERNAME/LVMH.git
   cd LVMH
-+ ```
++ 
 2. Create a virtual environment (optional but recommended):
 + ```bash
   python -m venv venv
   source venv/bin/activate  # On Windows: venv\Scripts\activate
-+```bash
++ 
 3. Install dependencies:
 + ```bash
   pip install -r
   requirements.txt
-+ ```
+
 
 __Dependencies__
 + - pandas 
