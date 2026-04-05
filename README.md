@@ -33,12 +33,12 @@ __Installation__
 + ```bash
   git clone https://github.com/YOUR_USERNAME/LVMH.git
   cd LVMH
-+ 
+  
 2. Create a virtual environment (optional but recommended):
 + ```bash
   python -m venv venv
   source venv/bin/activate  # On Windows: venv\Scripts\activate
-+ 
+  
 3. Install dependencies:
 + ```bash
   pip install -r
@@ -46,23 +46,23 @@ __Installation__
 
 
 __Dependencies__
-+ - pandas 
-+ - numpy
-+ -scikit-learn
-+ -matplotlib
-+ -joblib
-+ -plotly
-+ -seaborn
++ pandas 
++ numpy
++ scikit-learn
++ matplotlib
++ joblib
++ plotly
++ seaborn
 
 __Methodology__
 Volatility Calculation
-+ - Daily returns: `Return = (Close - Open) / Open`
-+ - Rolling 20-day standard deviation (annualized)
-+ - Historical volatility using price range
++ Daily returns: `Return = (Close - Open) / Open`
++ Rolling 20-day standard deviation (annualized)
++ Historical volatility using price range
 
 Growth Calculation
-+ - Yearly return: `(Year-End Close - Year-Start Open) / Year-Start Open`
-+ - Total return: `(Final Price - Initial Price) / Initial Price`
++ Yearly return: `(Year-End Close - Year-Start Open) / Year-Start Open`
++ Total return: `(Final Price - Initial Price) / Initial Price`
 
 Key Insights
 1. **Strong Long-term Growth**: LVMH has delivered over 880% total return since 2000
