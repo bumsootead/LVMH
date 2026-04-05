@@ -9,7 +9,7 @@ This project analyzes LVMH stock data from 2000 to 2026, providing insights into
 + Yearly Stock Growth
 + Trading Volume Trends
 + Price Statistics
-+ 
+
  __Repository Structure__
 ```
 LVMH/
@@ -26,7 +26,8 @@ LVMH/
     ├── volatility_analysis.pkl    # Volatility data
     ├── growth_analysis.pkl        # Growth data
     └── summary_stats.pkl         # Summary statistics
-```x`
+```
+x`
 __Installation__
 
 1. Clone this repository:
