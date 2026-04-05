@@ -27,7 +27,6 @@ LVMH/
     ├── growth_analysis.pkl        # Growth data
     └── summary_stats.pkl         # Summary statistics
 ```
-x`
 __Installation__
 
 1. Clone this repository:
