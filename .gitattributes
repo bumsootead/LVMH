@@ -1,0 +1,6 @@
+# Mark generated dashboard and graphs as generated so GitHub Linguist ignores them for language stats
+/dashboard.html linguist-generated=true
+/graphs/** linguist-generated=true
+
+# Optionally mark other generated HTML reports or exported notebooks here
+# /reports/** linguist-generated=true
