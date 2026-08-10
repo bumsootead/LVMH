@@ -1,5 +1,5 @@
-from .data import load_prices, align_with_benchmark
-from .metrics import (
+from .lvmh_analysis.data import load_prices, align_with_benchmark
+from .lvmh_analysis.metrics import (
     add_returns,
     compute_volatility,
     yearly_volatility,
@@ -9,7 +9,7 @@ from .metrics import (
     MARKET_EVENTS,
 )
 try:
-    from .plotting import build_dashboard, save_dashboard
+    from .lvmh_analysis.plotting import build_dashboard, save_dashboard
 except ImportError:  # plotly not installed -- data/metrics still usable
     build_dashboard = save_dashboard = None
 
