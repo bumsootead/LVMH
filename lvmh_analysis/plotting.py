@@ -110,6 +110,77 @@ def save_dashboard(fig: go.Figure, path: str = "dashboard.html") -> None:
     print(f"[plotting] Dashboard saved to {path}")
 
 
+def build_notebook_charts(data: pd.DataFrame, title: str = "Stock Price Analysis") -> go.Figure:
+    """Reproduce the notebook's 2x2 mean±std charts for Open/High/Low/Close as a Plotly figure.
+
+    Returns a Plotly Figure with 4 subplots matching the Examination.ipynb visuals.
+    """
+    data = data.copy()
+    data = data.sort_values("Date").reset_index(drop=True)
+
+    fig = make_subplots(rows=2, cols=2, subplot_titles=("Opening Prices", "High Prices", "Low Prices", "Closing Prices"))
+
+    cols = ["Open", "High", "Low", "Close"]
+    colors = ["#1f77b4", "#2ca02c", "#ff7f0e", "#9467bd"]
+
+    for i, col in enumerate(cols):
+        mean_val = data[col].mean()
+        std_val = data[col].std()
+        row = i // 2 + 1
+        col_idx = i % 2 + 1
+
+        fig.add_trace(
+            go.Scatter(
+                x=list(range(len(data))),
+                y=data[col],
+                mode="lines+markers",
+                marker=dict(size=4),
+                name=col,
+                line=dict(color=colors[i]),
+                opacity=0.7,
+            ),
+            row=row,
+            col=col_idx,
+        )
+
+        # mean line
+        fig.add_trace(
+            go.Scatter(x=[0, len(data) - 1], y=[mean_val, mean_val], mode="lines", line=dict(dash="dash", color="red"), showlegend=False),
+            row=row,
+            col=col_idx,
+        )
+
+        # shaded std band
+        fig.add_trace(
+            go.Scatter(
+                x=list(range(len(data))) + list(range(len(data))[::-1]),
+                y=list((mean_val + std_val) * np.ones(len(data))) + list((mean_val - std_val) * np.ones(len(data))[::-1]),
+                fill="toself",
+                fillcolor=colors[i] + "22",
+                line=dict(color="rgba(255,255,255,0)"),
+                hoverinfo="skip",
+                showlegend=False,
+            ),
+            row=row,
+            col=col_idx,
+        )
+
+        fig.update_yaxes(title_text="Price", row=row, col=col_idx)
+        fig.update_xaxes(title_text="Date Index", row=row, col=col_idx)
+
+    fig.update_layout(title=title, height=700, template="plotly_white")
+    return fig
+
+
+def export_figure_png(fig: go.Figure, path: str) -> None:
+    """Export a Plotly figure to PNG using kaleido if available; otherwise warn."""
+    try:
+        fig.write_image(path)
+        print(f"[plotting] Exported PNG to {path}")
+    except Exception as e:
+        print(f"[plotting] WARNING: failed to write PNG {path}. Install 'kaleido' to enable static exports. Error: {e}")
+
+
 def build_cross_section_dashboard(
     aligned_map: dict,
     vol_map: dict,
@@ -121,52 +192,89 @@ def build_cross_section_dashboard(
 ) -> go.Figure:
     """Build a dashboard comparing multiple assets to a common benchmark.
 
-    aligned_map: dict of {asset_name: aligned_df}
-    vol_map: dict of {asset_name: vol_df}
-    summary_df: DataFrame with one row per asset and CI columns ci_lower/ci_upper
-    event_df: DataFrame with per-asset event-window rows
+    Panels:
+    1) Normalized price overlay
+    2) Rolling volatility lines per asset
+    3) Event-window grouped bar chart (asset vs benchmark relative returns)
+    4) Cross-sectional summary table with CIs
     """
-    # Top: normalized price overlay for each asset + benchmark
+    # 4-row layout
     fig = make_subplots(
-        rows=2,
+        rows=4,
         cols=1,
         shared_xaxes=True,
-        row_heights=[0.6, 0.4],
-        vertical_spacing=0.06,
-        specs=[[{"type": "xy"}], [{"type": "table"}]],
-        subplot_titles=("Normalized Price (start = 100)", "Cross-sectional summary"),
+        row_heights=[0.35, 0.2, 0.25, 0.2],
+        vertical_spacing=0.04,
+        specs=[[{"type": "xy"}], [{"type": "xy"}], [{"type": "xy"}], [{"type": "table"}]],
+        subplot_titles=(
+            "Normalized Price (start = 100)",
+            "Rolling Volatility",
+            "Event-window Relative Returns",
+            "Cross-sectional summary",
+        ),
     )
 
-    # choose a canonical date index from the benchmark-aligned pairs (intersection)
-    # plot each asset's normalized price
+    # Normalized prices
     for name, aligned in aligned_map.items():
         norm = aligned["Close"] / aligned["Close"].iloc[0] * 100
         fig.add_trace(
-            go.Scatter(x=aligned["Date"], y=norm, name=name),
+            go.Scatter(x=aligned["Date"], y=norm, name=name, mode="lines"),
             row=1,
             col=1,
         )
 
-    # Build a table summarizing key metrics with CIs
+    # Volatility traces
+    for name, vol in vol_map.items():
+        if volatility_col in vol.columns:
+            fig.add_trace(
+                go.Scatter(
+                    x=vol["Date"],
+                    y=vol[volatility_col] * 100,
+                    name=f"Vol {name}",
+                    mode="lines",
+                ),
+                row=2,
+                col=1,
+            )
+
+    # Event-window grouped bars: for each event, one bar per asset showing Relative_Return
+    if not event_df.empty:
+        # pivot so events on x-axis, assets as series
+        pivot = event_df.pivot(index="Event", columns="Asset", values="Relative_Return")
+        events = pivot.index.tolist()
+        for asset in pivot.columns:
+            fig.add_trace(
+                go.Bar(x=events, y=pivot[asset].values * 100, name=asset),
+                row=3,
+                col=1,
+            )
+        fig.update_yaxes(title_text="Relative return (%)", row=3, col=1)
+
+    # Summary table
     table_cols = [
         "Asset",
         "Asset total return",
-        f"{int(100*0.95)}% CI lower",
-        f"{int(100*0.95)}% CI upper",
+        f"CI lower",
+        f"CI upper",
         "Asset annual vol",
         "Benchmark annual vol",
         "Relative vol",
     ]
 
-    # Format summary dataframe columns accordingly
+    # Ensure numeric columns exist
+    def fmt(col, scale=1, prec=2):
+        if col in summary_df.columns:
+            return (summary_df[col] * scale).round(prec).astype(str).tolist()
+        return ["N/A"] * len(summary_df)
+
     table_values = [
-        summary_df["Asset"].tolist(),
-        (summary_df["asset_total_return"] * 100).round(2).astype(str).tolist(),
-        (summary_df["ci_lower"] * 100).round(2).astype(str).tolist(),
-        (summary_df["ci_upper"] * 100).round(2).astype(str).tolist(),
-        (summary_df["asset_annual_volatility"] * 100).round(2).astype(str).tolist(),
-        (summary_df["benchmark_annual_volatility"] * 100).round(2).astype(str).tolist(),
-        (summary_df["relative_volatility"]).round(2).astype(str).tolist(),
+        summary_df.get("Asset", summary_df.index).tolist(),
+        fmt("asset_total_return", 100),
+        fmt("ci_lower", 100),
+        fmt("ci_upper", 100),
+        fmt("asset_annual_volatility", 100),
+        fmt("benchmark_annual_volatility", 100),
+        summary_df.get("relative_volatility", summary_df.get("relative_volatility", [])).round(2).astype(str).tolist(),
     ]
 
     fig.add_trace(
@@ -174,9 +282,11 @@ def build_cross_section_dashboard(
             header=dict(values=table_cols, fill_color="lightgrey"),
             cells=dict(values=table_values),
         ),
-        row=2,
+        row=4,
         col=1,
     )
 
-    fig.update_layout(title=title, height=800, template="plotly_white")
+    fig.update_layout(title=title, height=1000, template="plotly_white", barmode="group")
+    fig.update_yaxes(title_text="Index (start = 100)", row=1, col=1)
+    fig.update_yaxes(title_text="Volatility (%)", row=2, col=1)
     return fig
