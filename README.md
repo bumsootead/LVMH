@@ -83,11 +83,12 @@ LVMH/
 └── README.md
 ```
 
+
 ## Running It
 
 ```bash
 pip install -r requirements.txt
-python stock_analysis.py --asset Data/LV.csv --benchmark Data/BENCHMARK.csv \
+python stock_analysis.py --asset Data/LV.csv --benchmark /path/to/benchmark.csv \
     --benchmark-name "CAC 40" --window 20
 ```
 
@@ -99,16 +100,6 @@ Run tests with:
 ```bash
 pytest tests/
 ```
-
-## Next Steps
-
-- Add 2–3 luxury-sector peers for cross-sectional comparison.
-- Replace point-estimate excess return with a bootstrapped confidence
-  interval.
-- If extending to a predictive model (e.g. volume forecasting), use a
-  time-based train/test split and a naive baseline — not random k-fold CV,
-  which leaks future information into the past for autocorrelated series.
-
 ## License
 
 MIT
