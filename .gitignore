@@ -25,3 +25,6 @@ build/
 # Output / data (optional: remove if you want to track)
 *.png
 *.gif
+
+# generated graphs folder (optional)
+graphs/
