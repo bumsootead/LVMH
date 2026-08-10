@@ -1,8 +1,6 @@
-pandas
-scikit-learn
-joblib
-matplotlib
-numpy
-plotly
-seaborn
-pip install jupyter
+pandas==2.2.2
+numpy==1.26.4
+plotly==5.22.0
+pytest==8.2.2
+joblib==1.4.2
+scikit-learn==1.5.0
