@@ -148,28 +148,46 @@ def main() -> None:
             title="Assets vs. Benchmark (cross-sectional)",
         )
         save_dashboard(dashboard, path=f"{args.output_dir}/dashboard.html")
-    else:
-        # fall back to single-asset dashboard if plotting unavailable
-        # pick first asset
-        first = next(iter(aligned_map))
-        dashboard = build_dashboard(
-            aligned_map[first],
-            vol_map[first],
-            benchmark_col=f"{args.benchmark_name}_Close",
-            benchmark_name=args.benchmark_name,
-            volatility_col=f"Volatility_{args.window}d",
-        )
-        save_dashboard(dashboard, path=f"{args.output_dir}/dashboard.html")
 
-    summary = {
-        "cross_section_summary": summaries,
-        "event_windows": event_df.to_dict("records"),
-        "yearly_volatility": {k: v.to_dict("records") for k, v in yearly_vols.items()},
-        "yearly_growth": {k: v[["Year", "Yearly_Return"]].to_dict("records") for k, v in yearly_growths.items()},
-    }
-    with open(f"{args.output_dir}/summary.json", "w") as f:
-        json.dump(summary, f, indent=2, default=str)
-    print(f"\nSummary saved to {args.output_dir}/summary.json")
+            # try exporting a PNG of the dashboard for Power BI import (requires kaleido)
+            try:
+                from lvmh_analysis.plotting import export_figure_png, build_notebook_charts
+
+                png_dir = os.path.join(args.output_dir, "powerbi_exports")
+                os.makedirs(png_dir, exist_ok=True)
+                export_figure_png(dashboard, os.path.join(png_dir, "dashboard.png"))
+
+                # per-asset notebook-style charts
+                for asset_name, df in aligned_map.items():
+                    # aligned_map contains only Date and Close + benchmark; we want original asset OHLCV
+                    # find corresponding yearly_growths asset and load original file if possible
+                    # we have yearly_growths dict with the Yearly DataFrames; instead, rebuild basic asset df from vol_map if Open exists
+                    source_df = None
+                    if asset_name in vol_map:
+                        # vol_map stores asset's vol_df (which was computed from asset dataframe earlier)
+                        source_df = vol_map[asset_name]
+                    # fallback: aligned_map[asset_name] has Date and Close only; skip if no OHL
+                    if source_df is not None and {"Open","High","Low","Close"}.issubset(source_df.columns):
+                        fig_asset = build_notebook_charts(source_df.rename(columns={"Close":"Close"}), title=f"{asset_name}: Price Stats")
+                        export_figure_png(fig_asset, os.path.join(png_dir, f"{asset_name}_price_stats.png"))
+            except Exception:
+                print("[pipeline] PNG export skipped (kaleido not installed or plotting helper failed).")
+
+        else:
+            # fall back to single-asset dashboard if plotting unavailable
+            # pick first asset
+            first = next(iter(aligned_map))
+            dashboard = build_dashboard(
+                aligned_map[first],
+                vol_map[first],
+                benchmark_col=f"{args.benchmark_name}_Close",
+                benchmark_name=args.benchmark_name,
+                volatility_col=f"Volatility_{args.window}d",
+            )
+            save_dashboard(dashboard, path=f"{args.output_dir}/dashboard.html")
+
+        # Removed summary.json writing per user request; keep human console output and exports
+        print(f"\nDashboard and exports saved to {os.path.abspath(args.output_dir)}")
     print("=" * 60)
     print("DONE")
     print("=" * 60)
