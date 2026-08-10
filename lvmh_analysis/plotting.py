@@ -108,3 +108,75 @@ def build_dashboard(
 def save_dashboard(fig: go.Figure, path: str = "dashboard.html") -> None:
     fig.write_html(path, include_plotlyjs="cdn")
     print(f"[plotting] Dashboard saved to {path}")
+
+
+def build_cross_section_dashboard(
+    aligned_map: dict,
+    vol_map: dict,
+    summary_df: pd.DataFrame,
+    event_df: pd.DataFrame,
+    benchmark_name: str = "Benchmark",
+    volatility_col: str = "Volatility_20d",
+    title: str = "Cross-Section: Assets vs. Benchmark",
+) -> go.Figure:
+    """Build a dashboard comparing multiple assets to a common benchmark.
+
+    aligned_map: dict of {asset_name: aligned_df}
+    vol_map: dict of {asset_name: vol_df}
+    summary_df: DataFrame with one row per asset and CI columns ci_lower/ci_upper
+    event_df: DataFrame with per-asset event-window rows
+    """
+    # Top: normalized price overlay for each asset + benchmark
+    fig = make_subplots(
+        rows=2,
+        cols=1,
+        shared_xaxes=True,
+        row_heights=[0.6, 0.4],
+        vertical_spacing=0.06,
+        specs=[[{"type": "xy"}], [{"type": "table"}]],
+        subplot_titles=("Normalized Price (start = 100)", "Cross-sectional summary"),
+    )
+
+    # choose a canonical date index from the benchmark-aligned pairs (intersection)
+    # plot each asset's normalized price
+    for name, aligned in aligned_map.items():
+        norm = aligned["Close"] / aligned["Close"].iloc[0] * 100
+        fig.add_trace(
+            go.Scatter(x=aligned["Date"], y=norm, name=name),
+            row=1,
+            col=1,
+        )
+
+    # Build a table summarizing key metrics with CIs
+    table_cols = [
+        "Asset",
+        "Asset total return",
+        f"{int(100*0.95)}% CI lower",
+        f"{int(100*0.95)}% CI upper",
+        "Asset annual vol",
+        "Benchmark annual vol",
+        "Relative vol",
+    ]
+
+    # Format summary dataframe columns accordingly
+    table_values = [
+        summary_df["Asset"].tolist(),
+        (summary_df["asset_total_return"] * 100).round(2).astype(str).tolist(),
+        (summary_df["ci_lower"] * 100).round(2).astype(str).tolist(),
+        (summary_df["ci_upper"] * 100).round(2).astype(str).tolist(),
+        (summary_df["asset_annual_volatility"] * 100).round(2).astype(str).tolist(),
+        (summary_df["benchmark_annual_volatility"] * 100).round(2).astype(str).tolist(),
+        (summary_df["relative_volatility"]).round(2).astype(str).tolist(),
+    ]
+
+    fig.add_trace(
+        go.Table(
+            header=dict(values=table_cols, fill_color="lightgrey"),
+            cells=dict(values=table_values),
+        ),
+        row=2,
+        col=1,
+    )
+
+    fig.update_layout(title=title, height=800, template="plotly_white")
+    return fig

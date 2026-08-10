@@ -1,0 +1,562 @@
+{
+  "cross_section_summary": [
+    {
+      "Asset": "LV",
+      "asset_total_return": 9.130076364225385,
+      "benchmark_total_return": 9.130076364225385,
+      "excess_return_point": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "asset_annual_volatility": 0.3061447707162515,
+      "benchmark_annual_volatility": 0.3061447707162515,
+      "relative_volatility": 1.0
+    },
+    {
+      "Asset": "BENCHMARK",
+      "asset_total_return": 9.130076364225385,
+      "benchmark_total_return": 9.130076364225385,
+      "excess_return_point": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "asset_annual_volatility": 0.3061447707162515,
+      "benchmark_annual_volatility": 0.3061447707162515,
+      "relative_volatility": 1.0
+    }
+  ],
+  "event_windows": [
+    {
+      "Event": "Dot-com crash",
+      "Start": "2000-03-01",
+      "End": "2002-10-31",
+      "Asset_Return": -0.3909404881687243,
+      "Benchmark_Return": -0.3909404881687243,
+      "Relative_Return": 0.0,
+      "Asset": "LV"
+    },
+    {
+      "Event": "2008 financial crisis",
+      "Start": "2008-09-01",
+      "End": "2009-03-31",
+      "Asset_Return": -0.3438655877360247,
+      "Benchmark_Return": -0.3438655877360247,
+      "Relative_Return": 0.0,
+      "Asset": "LV"
+    },
+    {
+      "Event": "COVID crash",
+      "Start": "2020-02-15",
+      "End": "2020-03-31",
+      "Asset_Return": -0.1832770609082075,
+      "Benchmark_Return": -0.1832770609082075,
+      "Relative_Return": 0.0,
+      "Asset": "LV"
+    },
+    {
+      "Event": "COVID recovery",
+      "Start": "2020-04-01",
+      "End": "2021-12-31",
+      "Asset_Return": 1.2876372526896507,
+      "Benchmark_Return": 1.2876372526896507,
+      "Relative_Return": 0.0,
+      "Asset": "LV"
+    },
+    {
+      "Event": "2022 rate-hike selloff",
+      "Start": "2022-01-01",
+      "End": "2022-10-31",
+      "Asset_Return": -0.11580070047327595,
+      "Benchmark_Return": -0.11580070047327595,
+      "Relative_Return": 0.0,
+      "Asset": "LV"
+    },
+    {
+      "Event": "Dot-com crash",
+      "Start": "2000-03-01",
+      "End": "2002-10-31",
+      "Asset_Return": -0.3909404881687243,
+      "Benchmark_Return": -0.3909404881687243,
+      "Relative_Return": 0.0,
+      "Asset": "BENCHMARK"
+    },
+    {
+      "Event": "2008 financial crisis",
+      "Start": "2008-09-01",
+      "End": "2009-03-31",
+      "Asset_Return": -0.3438655877360247,
+      "Benchmark_Return": -0.3438655877360247,
+      "Relative_Return": 0.0,
+      "Asset": "BENCHMARK"
+    },
+    {
+      "Event": "COVID crash",
+      "Start": "2020-02-15",
+      "End": "2020-03-31",
+      "Asset_Return": -0.1832770609082075,
+      "Benchmark_Return": -0.1832770609082075,
+      "Relative_Return": 0.0,
+      "Asset": "BENCHMARK"
+    },
+    {
+      "Event": "COVID recovery",
+      "Start": "2020-04-01",
+      "End": "2021-12-31",
+      "Asset_Return": 1.2876372526896507,
+      "Benchmark_Return": 1.2876372526896507,
+      "Relative_Return": 0.0,
+      "Asset": "BENCHMARK"
+    },
+    {
+      "Event": "2022 rate-hike selloff",
+      "Start": "2022-01-01",
+      "End": "2022-10-31",
+      "Asset_Return": -0.11580070047327595,
+      "Benchmark_Return": -0.11580070047327595,
+      "Relative_Return": 0.0,
+      "Asset": "BENCHMARK"
+    }
+  ],
+  "yearly_volatility": {
+    "LV": [
+      {
+        "Year": 2000,
+        "Annual_Volatility": 0.37917717557011377
+      },
+      {
+        "Year": 2001,
+        "Annual_Volatility": 0.5220137497575855
+      },
+      {
+        "Year": 2002,
+        "Annual_Volatility": 0.4481653504258645
+      },
+      {
+        "Year": 2003,
+        "Annual_Volatility": 0.31026063623342054
+      },
+      {
+        "Year": 2004,
+        "Annual_Volatility": 0.1957069679115644
+      },
+      {
+        "Year": 2005,
+        "Annual_Volatility": 0.15989736717626468
+      },
+      {
+        "Year": 2006,
+        "Annual_Volatility": 0.2244089314103082
+      },
+      {
+        "Year": 2007,
+        "Annual_Volatility": 0.18852817179994416
+      },
+      {
+        "Year": 2008,
+        "Annual_Volatility": 0.4697937469478659
+      },
+      {
+        "Year": 2009,
+        "Annual_Volatility": 0.3777417905414544
+      },
+      {
+        "Year": 2010,
+        "Annual_Volatility": 0.28869041195180034
+      },
+      {
+        "Year": 2011,
+        "Annual_Volatility": 0.318618091545398
+      },
+      {
+        "Year": 2012,
+        "Annual_Volatility": 0.2657364665041782
+      },
+      {
+        "Year": 2013,
+        "Annual_Volatility": 0.21233880593896448
+      },
+      {
+        "Year": 2014,
+        "Annual_Volatility": 0.20968921269810523
+      },
+      {
+        "Year": 2015,
+        "Annual_Volatility": 0.3206283440799513
+      },
+      {
+        "Year": 2016,
+        "Annual_Volatility": 0.25545515348425096
+      },
+      {
+        "Year": 2017,
+        "Annual_Volatility": 0.16451782004473722
+      },
+      {
+        "Year": 2018,
+        "Annual_Volatility": 0.25823571787984134
+      },
+      {
+        "Year": 2019,
+        "Annual_Volatility": 0.23819014592963866
+      },
+      {
+        "Year": 2020,
+        "Annual_Volatility": 0.3613495143272602
+      },
+      {
+        "Year": 2021,
+        "Annual_Volatility": 0.24109405052129618
+      },
+      {
+        "Year": 2022,
+        "Annual_Volatility": 0.33343989884889563
+      },
+      {
+        "Year": 2023,
+        "Annual_Volatility": 0.25819415162171244
+      },
+      {
+        "Year": 2024,
+        "Annual_Volatility": 0.286381873755195
+      },
+      {
+        "Year": 2025,
+        "Annual_Volatility": 0.32648634921218916
+      },
+      {
+        "Year": 2026,
+        "Annual_Volatility": 0.32912422908915656
+      }
+    ],
+    "BENCHMARK": [
+      {
+        "Year": 2000,
+        "Annual_Volatility": 0.37917717557011377
+      },
+      {
+        "Year": 2001,
+        "Annual_Volatility": 0.5220137497575855
+      },
+      {
+        "Year": 2002,
+        "Annual_Volatility": 0.4481653504258645
+      },
+      {
+        "Year": 2003,
+        "Annual_Volatility": 0.31026063623342054
+      },
+      {
+        "Year": 2004,
+        "Annual_Volatility": 0.1957069679115644
+      },
+      {
+        "Year": 2005,
+        "Annual_Volatility": 0.15989736717626468
+      },
+      {
+        "Year": 2006,
+        "Annual_Volatility": 0.2244089314103082
+      },
+      {
+        "Year": 2007,
+        "Annual_Volatility": 0.18852817179994416
+      },
+      {
+        "Year": 2008,
+        "Annual_Volatility": 0.4697937469478659
+      },
+      {
+        "Year": 2009,
+        "Annual_Volatility": 0.3777417905414544
+      },
+      {
+        "Year": 2010,
+        "Annual_Volatility": 0.28869041195180034
+      },
+      {
+        "Year": 2011,
+        "Annual_Volatility": 0.318618091545398
+      },
+      {
+        "Year": 2012,
+        "Annual_Volatility": 0.2657364665041782
+      },
+      {
+        "Year": 2013,
+        "Annual_Volatility": 0.21233880593896448
+      },
+      {
+        "Year": 2014,
+        "Annual_Volatility": 0.20968921269810523
+      },
+      {
+        "Year": 2015,
+        "Annual_Volatility": 0.3206283440799513
+      },
+      {
+        "Year": 2016,
+        "Annual_Volatility": 0.25545515348425096
+      },
+      {
+        "Year": 2017,
+        "Annual_Volatility": 0.16451782004473722
+      },
+      {
+        "Year": 2018,
+        "Annual_Volatility": 0.25823571787984134
+      },
+      {
+        "Year": 2019,
+        "Annual_Volatility": 0.23819014592963866
+      },
+      {
+        "Year": 2020,
+        "Annual_Volatility": 0.3613495143272602
+      },
+      {
+        "Year": 2021,
+        "Annual_Volatility": 0.24109405052129618
+      },
+      {
+        "Year": 2022,
+        "Annual_Volatility": 0.33343989884889563
+      },
+      {
+        "Year": 2023,
+        "Annual_Volatility": 0.25819415162171244
+      },
+      {
+        "Year": 2024,
+        "Annual_Volatility": 0.286381873755195
+      },
+      {
+        "Year": 2025,
+        "Annual_Volatility": 0.32648634921218916
+      },
+      {
+        "Year": 2026,
+        "Annual_Volatility": 0.32912422908915656
+      }
+    ]
+  },
+  "yearly_growth": {
+    "LV": [
+      {
+        "Year": 2000,
+        "Yearly_Return": -0.22552554501941383
+      },
+      {
+        "Year": 2001,
+        "Yearly_Return": -0.3595960369346546
+      },
+      {
+        "Year": 2002,
+        "Yearly_Return": -0.13081929122485608
+      },
+      {
+        "Year": 2003,
+        "Yearly_Return": 0.5079864721549426
+      },
+      {
+        "Year": 2004,
+        "Yearly_Return": -0.008144299268366432
+      },
+      {
+        "Year": 2005,
+        "Yearly_Return": 0.3540709293937303
+      },
+      {
+        "Year": 2006,
+        "Yearly_Return": 0.07438893230473133
+      },
+      {
+        "Year": 2007,
+        "Yearly_Return": 0.046974926251339845
+      },
+      {
+        "Year": 2008,
+        "Yearly_Return": -0.4066840148030017
+      },
+      {
+        "Year": 2009,
+        "Yearly_Return": 0.6825088879732224
+      },
+      {
+        "Year": 2010,
+        "Yearly_Return": 0.6025369873465046
+      },
+      {
+        "Year": 2011,
+        "Yearly_Return": -0.10456845043730698
+      },
+      {
+        "Year": 2012,
+        "Yearly_Return": 0.283609925405883
+      },
+      {
+        "Year": 2013,
+        "Yearly_Return": -0.03612112446582775
+      },
+      {
+        "Year": 2014,
+        "Yearly_Return": 0.01753016547709599
+      },
+      {
+        "Year": 2015,
+        "Yearly_Return": 0.13348700683245399
+      },
+      {
+        "Year": 2016,
+        "Yearly_Return": 0.30025217569879964
+      },
+      {
+        "Year": 2017,
+        "Yearly_Return": 0.3793677692699595
+      },
+      {
+        "Year": 2018,
+        "Yearly_Return": 0.07196697766061662
+      },
+      {
+        "Year": 2019,
+        "Yearly_Return": 0.6583931581316098
+      },
+      {
+        "Year": 2020,
+        "Yearly_Return": 0.23528171779348486
+      },
+      {
+        "Year": 2021,
+        "Yearly_Return": 0.42356723420118986
+      },
+      {
+        "Year": 2022,
+        "Yearly_Return": -0.056654349722839725
+      },
+      {
+        "Year": 2023,
+        "Yearly_Return": 0.08093918709962955
+      },
+      {
+        "Year": 2024,
+        "Yearly_Return": -0.12493293837943649
+      },
+      {
+        "Year": 2025,
+        "Yearly_Return": 0.03537926976772736
+      },
+      {
+        "Year": 2026,
+        "Yearly_Return": -0.1331255251972915
+      }
+    ],
+    "BENCHMARK": [
+      {
+        "Year": 2000,
+        "Yearly_Return": -0.22552554501941383
+      },
+      {
+        "Year": 2001,
+        "Yearly_Return": -0.3595960369346546
+      },
+      {
+        "Year": 2002,
+        "Yearly_Return": -0.13081929122485608
+      },
+      {
+        "Year": 2003,
+        "Yearly_Return": 0.5079864721549426
+      },
+      {
+        "Year": 2004,
+        "Yearly_Return": -0.008144299268366432
+      },
+      {
+        "Year": 2005,
+        "Yearly_Return": 0.3540709293937303
+      },
+      {
+        "Year": 2006,
+        "Yearly_Return": 0.07438893230473133
+      },
+      {
+        "Year": 2007,
+        "Yearly_Return": 0.046974926251339845
+      },
+      {
+        "Year": 2008,
+        "Yearly_Return": -0.4066840148030017
+      },
+      {
+        "Year": 2009,
+        "Yearly_Return": 0.6825088879732224
+      },
+      {
+        "Year": 2010,
+        "Yearly_Return": 0.6025369873465046
+      },
+      {
+        "Year": 2011,
+        "Yearly_Return": -0.10456845043730698
+      },
+      {
+        "Year": 2012,
+        "Yearly_Return": 0.283609925405883
+      },
+      {
+        "Year": 2013,
+        "Yearly_Return": -0.03612112446582775
+      },
+      {
+        "Year": 2014,
+        "Yearly_Return": 0.01753016547709599
+      },
+      {
+        "Year": 2015,
+        "Yearly_Return": 0.13348700683245399
+      },
+      {
+        "Year": 2016,
+        "Yearly_Return": 0.30025217569879964
+      },
+      {
+        "Year": 2017,
+        "Yearly_Return": 0.3793677692699595
+      },
+      {
+        "Year": 2018,
+        "Yearly_Return": 0.07196697766061662
+      },
+      {
+        "Year": 2019,
+        "Yearly_Return": 0.6583931581316098
+      },
+      {
+        "Year": 2020,
+        "Yearly_Return": 0.23528171779348486
+      },
+      {
+        "Year": 2021,
+        "Yearly_Return": 0.42356723420118986
+      },
+      {
+        "Year": 2022,
+        "Yearly_Return": -0.056654349722839725
+      },
+      {
+        "Year": 2023,
+        "Yearly_Return": 0.08093918709962955
+      },
+      {
+        "Year": 2024,
+        "Yearly_Return": -0.12493293837943649
+      },
+      {
+        "Year": 2025,
+        "Yearly_Return": 0.03537926976772736
+      },
+      {
+        "Year": 2026,
+        "Yearly_Return": -0.1331255251972915
+      }
+    ]
+  }
+}
