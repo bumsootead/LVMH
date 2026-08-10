@@ -120,6 +120,59 @@ def benchmark_relative_stats(
     }
 
 
+def bootstrap_excess_return(
+    aligned: pd.DataFrame,
+    benchmark_col: str = "Benchmark_Close",
+    n_boot: int = 1000,
+    ci: float = 0.95,
+    random_state: int | None = None,
+) -> dict:
+    """Bootstrap a confidence interval for excess total return.
+
+    Resamples paired daily returns with replacement and computes the
+    distribution of excess total returns (asset total - benchmark total).
+
+    Returns a dict with point_estimate, ci_lower, ci_upper, and samples.
+    """
+    aligned = aligned.copy()
+    aligned = add_returns(aligned)
+    aligned["Benchmark_Return"] = aligned[benchmark_col].pct_change()
+
+    # drop the first NaN return
+    returns = aligned[["Returns", "Benchmark_Return"]].dropna().reset_index(drop=True)
+    if returns.empty:
+        return {"point_estimate": float("nan"), "ci_lower": float("nan"), "ci_upper": float("nan"), "samples": []}
+
+    rng = np.random.RandomState(random_state)
+    n = len(returns)
+    samples = np.empty(n_boot)
+    for i in range(n_boot):
+        idx = rng.randint(0, n, size=n)
+        ar = returns["Returns"].iloc[idx].to_numpy()
+        br = returns["Benchmark_Return"].iloc[idx].to_numpy()
+        # compound returns to get total return
+        asset_total = np.prod(1 + ar) - 1
+        bench_total = np.prod(1 + br) - 1
+        samples[i] = asset_total - bench_total
+
+    lower_p = (1 - ci) / 2 * 100
+    upper_p = (1 + ci) / 2 * 100
+    ci_lower = np.percentile(samples, lower_p)
+    ci_upper = np.percentile(samples, upper_p)
+
+    # point estimate using the full series
+    full_asset = aligned["Close"].iloc[-1] / aligned["Close"].iloc[0] - 1
+    full_bench = aligned[benchmark_col].iloc[-1] / aligned[benchmark_col].iloc[0] - 1
+    point = full_asset - full_bench
+
+    return {
+        "point_estimate": point,
+        "ci_lower": float(ci_lower),
+        "ci_upper": float(ci_upper),
+        "samples": samples.tolist(),
+    }
+
+
 def event_window_stats(
     aligned: pd.DataFrame, benchmark_col: str = "Benchmark_Close"
 ) -> pd.DataFrame:
