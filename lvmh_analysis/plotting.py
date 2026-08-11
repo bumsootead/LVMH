@@ -77,7 +77,7 @@ def build_dashboard(
         col=1,
     )
 
-    # Shade named market-stress windows across both panels.
+    # Shade named market-stress windows across both panels (no per-rect annotations to avoid overlap).
     for name, (start, end) in MARKET_EVENTS.items():
         fig.add_vrect(
             x0=start,
@@ -85,12 +85,31 @@ def build_dashboard(
             fillcolor="red",
             opacity=0.07,
             line_width=0,
-            annotation_text=name,
-            annotation_position="top left",
-            annotation_font_size=9,
             row="all",
             col=1,
         )
+
+    # Compute compact indicators to show at top-right (aligned with title)
+    try:
+        asset_total = aligned['Close'].iloc[-1] / aligned['Close'].iloc[0] - 1
+        bench_total = aligned[benchmark_col].iloc[-1] / aligned[benchmark_col].iloc[0] - 1
+        excess = asset_total - bench_total
+    except Exception:
+        asset_total = float('nan')
+        bench_total = float('nan')
+        excess = float('nan')
+
+    try:
+        latest_vol = vol_df[volatility_col].dropna().iloc[-1] * 100
+    except Exception:
+        latest_vol = float('nan')
+
+    indicator_text = (
+        f"LVMH TR: {asset_total*100:.1f}%<br>"
+        f"{benchmark_name} TR: {bench_total*100:.1f}%<br>"
+        f"Excess: {excess*100:.1f}%<br>"
+        f"Latest vol (20d): {latest_vol:.1f}%"
+    )
 
     fig.update_layout(
         title=dict(text=title, x=0.5, xanchor='center', y=0.98),
@@ -99,6 +118,20 @@ def build_dashboard(
         legend=dict(orientation="h", yanchor="top", y=0.9, xanchor="right", x=1),
         margin=dict(t=160),  # extra top margin so title and indicators have breathing room
     )
+
+    # Add a compact annotation box at the top-right (paper coordinates) for indicators
+    fig.add_annotation(
+        xref='paper', yref='paper', x=1.0, y=1.02,
+        xanchor='right', yanchor='top',
+        text=indicator_text,
+        showarrow=False,
+        align='right',
+        bgcolor='rgba(255,255,255,0.9)',
+        bordercolor='rgba(0,0,0,0.2)',
+        borderwidth=1,
+        font=dict(size=11),
+    )
+
     fig.update_yaxes(title_text="Index (start = 100)", row=1, col=1)
     fig.update_yaxes(title_text="Volatility (%)", row=2, col=1)
 
