@@ -93,11 +93,11 @@ def build_dashboard(
         )
 
     fig.update_layout(
-        title=title,
+        title=dict(text=title, x=0.5, xanchor='center', y=0.98),
         height=750,
         template="plotly_white",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        margin=dict(t=90),
+        legend=dict(orientation="h", yanchor="top", y=0.9, xanchor="right", x=1),
+        margin=dict(t=160),  # extra top margin so title and indicators have breathing room
     )
     fig.update_yaxes(title_text="Index (start = 100)", row=1, col=1)
     fig.update_yaxes(title_text="Volatility (%)", row=2, col=1)
@@ -286,7 +286,14 @@ def build_cross_section_dashboard(
         col=1,
     )
 
-    fig.update_layout(title=title, height=1000, template="plotly_white", barmode="group")
+    fig.update_layout(
+        title=dict(text=title, x=0.5, xanchor='center', y=0.985),
+        height=1000,
+        template="plotly_white",
+        barmode="group",
+        legend=dict(orientation='h', yanchor='top', y=0.92, xanchor='right', x=1),
+        margin=dict(t=160),
+    )
     fig.update_yaxes(title_text="Index (start = 100)", row=1, col=1)
     fig.update_yaxes(title_text="Volatility (%)", row=2, col=1)
     return fig
