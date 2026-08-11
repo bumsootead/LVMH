@@ -126,11 +126,17 @@ def bootstrap_excess_return(
     n_boot: int = 1000,
     ci: float = 0.95,
     random_state: int | None = None,
+    use_log_returns: bool = False,
+    annualize: bool = False,
 ) -> dict:
-    """Bootstrap a confidence interval for excess total return.
+    """Bootstrap a confidence interval for excess return.
+
+    Options:
+    - use_log_returns: resample log(1+r) and aggregate by summation (more stable for compounding).
+    - annualize: return CI for annualized excess return instead of period total.
 
     Resamples paired daily returns with replacement and computes the
-    distribution of excess total returns (asset total - benchmark total).
+    distribution of excess returns (asset - benchmark) according to options.
 
     Returns a dict with point_estimate, ci_lower, ci_upper, and samples.
     """
@@ -146,30 +152,60 @@ def bootstrap_excess_return(
     rng = np.random.RandomState(random_state)
     n = len(returns)
     samples = np.empty(n_boot)
+
     for i in range(n_boot):
         idx = rng.randint(0, n, size=n)
         ar = returns["Returns"].iloc[idx].to_numpy()
         br = returns["Benchmark_Return"].iloc[idx].to_numpy()
-        # compound returns to get total return
-        asset_total = np.prod(1 + ar) - 1
-        bench_total = np.prod(1 + br) - 1
-        samples[i] = asset_total - bench_total
+
+        if use_log_returns:
+            # sum log returns then convert back
+            lar = np.log1p(ar)
+            lbr = np.log1p(br)
+            asset_total = np.expm1(lar.sum())
+            bench_total = np.expm1(lbr.sum())
+        else:
+            asset_total = np.prod(1 + ar) - 1
+            bench_total = np.prod(1 + br) - 1
+
+        if annualize:
+            # convert period total to annualized rate based on number of trading days
+            if n > 0:
+                asset_ann = (1 + asset_total) ** (TRADING_DAYS_PER_YEAR / n) - 1
+                bench_ann = (1 + bench_total) ** (TRADING_DAYS_PER_YEAR / n) - 1
+                samples[i] = asset_ann - bench_ann
+            else:
+                samples[i] = 0.0
+        else:
+            samples[i] = asset_total - bench_total
 
     lower_p = (1 - ci) / 2 * 100
     upper_p = (1 + ci) / 2 * 100
     ci_lower = np.percentile(samples, lower_p)
     ci_upper = np.percentile(samples, upper_p)
 
-    # point estimate using the full series
-    full_asset = aligned["Close"].iloc[-1] / aligned["Close"].iloc[0] - 1
-    full_bench = aligned[benchmark_col].iloc[-1] / aligned[benchmark_col].iloc[0] - 1
+    # point estimate using the full series, computed the same way as samples
+    if use_log_returns:
+        full_asset = np.expm1(np.log1p(aligned['Returns'].dropna()).sum()) if not aligned['Returns'].dropna().empty else float('nan')
+        full_bench = np.expm1(np.log1p(aligned[benchmark_col].pct_change().dropna()).sum()) if not aligned[benchmark_col].pct_change().dropna().empty else float('nan')
+    else:
+        full_asset = aligned["Close"].iloc[-1] / aligned["Close"].iloc[0] - 1
+        full_bench = aligned[benchmark_col].iloc[-1] / aligned[benchmark_col].iloc[0] - 1
+
+    if annualize and not np.isnan(full_asset) and not np.isnan(full_bench):
+        full_asset = (1 + full_asset) ** (TRADING_DAYS_PER_YEAR / n) - 1
+        full_bench = (1 + full_bench) ** (TRADING_DAYS_PER_YEAR / n) - 1
+
     point = full_asset - full_bench
 
     return {
-        "point_estimate": point,
+        "point_estimate": float(point),
         "ci_lower": float(ci_lower),
         "ci_upper": float(ci_upper),
         "samples": samples.tolist(),
+        "n_boot": n_boot,
+        "use_log_returns": use_log_returns,
+        "annualize": annualize,
     }
 
 
