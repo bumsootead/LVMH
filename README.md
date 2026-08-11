@@ -15,13 +15,9 @@ named market-stress events instead of calendar years alone.
 Methodology below for how each number is derived. Do not report a return or
 volatility figure here without the paired benchmark number next to it.)*
 
-- Total return vs. benchmark: `asset_total_return` vs. `benchmark_total_return`
-  (`stock_analysis.py` output / `summary.json`)
-- Relative volatility: `relative_volatility` — was the extra risk (if any)
-  compensated by excess return?
-- Event-window performance: how LVMH moved vs. the benchmark during the
-  dot-com crash, 2008, COVID, and the 2022 rate-hike selloff
-  (`event_window_stats` in `summary.json`)
+- Total return vs. benchmark: `asset_total_return` vs. `benchmark_total_return` (see dashboard release asset or graphs/*.png)
+- Relative volatility: `relative_volatility` — was the extra risk (if any) compensated by excess return? See dashboard visuals.
+- Event-window performance: how LVMH moved vs. the benchmark during the dot-com crash, 2008, COVID, and the 2022 rate-hike selloff (see dashboard release asset or graphs/*.png)
 
 ## Methodology
 
@@ -92,8 +88,7 @@ python stock_analysis.py --asset Data/LV.csv --benchmark /path/to/benchmark.csv 
     --benchmark-name "CAC 40" --window 20
 ```
 
-Outputs `dashboard.html` (interactive price/volatility view with event
-windows shaded) and `summary.json` (all computed stats).
+Outputs: the interactive dashboard (`dashboard.html`) has been moved to the release "Dashboard" (download from https://github.com/bumsootead/LVMH/releases/tag/dashboard-20260810-170353). Static PNG exports are committed in the graphs/ folder.
 
 Run tests with:
 
