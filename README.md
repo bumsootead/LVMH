@@ -67,7 +67,7 @@ finding:
 LVMH/
 ├── Data/
 │   ├── LV.csv                  # LVMH OHLCV (+ Adj Close if available)
-│   └── BENCHMARK.csv           # e.g. CAC 40, same schema
+│   └── CAC40.csv               # e.g. CAC 40 benchmark, same schema (Date,Open,High,Low,Close,Volume)
 ├── lvmh_analysis/
 │   ├── data.py                 # loading, cleaning, benchmark alignment
 │   ├── metrics.py              # returns, volatility, growth, event stats

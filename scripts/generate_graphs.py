@@ -63,7 +63,7 @@ def save_event_bars(event_df, out_path, title='Event-window relative returns'):
     plt.close()
 
 
-def main(assets=None, benchmark='Data/BENCHMARK.csv', out_dir='graphs'):
+def main(assets=None, benchmark='Data/CAC40.csv', out_dir='graphs'):
     os.makedirs(out_dir, exist_ok=True)
     if assets is None:
         assets = ['Data/LV.csv']
@@ -101,6 +101,6 @@ def main(assets=None, benchmark='Data/BENCHMARK.csv', out_dir='graphs'):
 if __name__ == '__main__':
     # default assets: LV and BENCHMARK copy if present
     asset_list = ['Data/LV.csv']
-    if os.path.exists('Data/BENCHMARK.csv'):
-        asset_list.append('Data/BENCHMARK.csv')
+    if os.path.exists('Data/CAC40.csv'):
+        asset_list.append('Data/CAC40.csv')
     main(assets=asset_list)

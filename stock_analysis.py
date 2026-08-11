@@ -44,7 +44,7 @@ def parse_args() -> argparse.Namespace:
         help="Path(s) to asset OHLCV CSV(s). Provide multiple for cross-sectional comparison",
     )
     parser.add_argument(
-        "--benchmark", default="Data/BENCHMARK.csv", help="Path to benchmark OHLCV CSV"
+        "--benchmark", default="Data/CAC40.csv", help="Path to benchmark OHLCV CSV"
     )
     parser.add_argument("--benchmark-name", default="CAC 40", help="Display name for benchmark")
     parser.add_argument("--window", type=int, default=20, help="Rolling volatility window (days)")
